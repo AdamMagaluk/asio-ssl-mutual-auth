@@ -24,17 +24,6 @@ public:
     : socket_(io_service, context)
   {
 
-context.set_options(
-        boost::asio::ssl::context::default_workarounds
-        | boost::asio::ssl::context::no_sslv2
-        | boost::asio::ssl::context::single_dh_use);
-
-    context.set_password_callback(boost::bind(&client::get_password, this));
-
-
-    context.use_certificate_chain_file("client_certs/server.crt"); 
-    context.use_private_key_file("client_certs/server.key", boost::asio::ssl::context::pem);
-    context.use_tmp_dh_file("client_certs/dh512.pem");
 
 
     boost::asio::ip::tcp::endpoint endpoint = *endpoint_iterator;
@@ -150,12 +139,23 @@ int main(int argc, char* argv[])
     ctx.set_verify_mode(boost::asio::ssl::context::verify_peer || boost::asio::ssl::context::verify_fail_if_no_peer_cert ); 
     ctx.load_verify_file("certs/server.crt");
 
+        ctx.set_options(
+                boost::asio::ssl::context::default_workarounds
+                | boost::asio::ssl::context::no_sslv2
+                | boost::asio::ssl::context::single_dh_use);
+
+
+        ctx.use_certificate_chain_file("client_certs/server.crt");
+        ctx.use_private_key_file("client_certs/server.key", boost::asio::ssl::context::pem);
+        ctx.use_tmp_dh_file("client_certs/dh512.pem");
+        
+    
     client c(io_service, ctx, iterator);
     io_service.run();
   }
-  catch (std::exception& e)
+  catch (boost::system::error_code& e)
   {
-    std::cerr << "Exception: " << e.what() << "\n";
+    std::cerr << "Exception: " << e.message() << "\n";
   }
 
   return 0;

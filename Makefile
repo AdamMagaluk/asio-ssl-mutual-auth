@@ -1,19 +1,19 @@
 CPP=g++
-CFLAGS=-I.
+CFLAGS=-I.-DKSSL_DEBUG
 DEPS = server.cpp
 
 LDFLAGS=-lcrypto -lssl -lboost_system
 
-%.o: %.c $(DEPS)
+%.o: %.cpp $(DEPS)
 	$(CPP) -c -o $@ $< $(CFLAGS)
 
 all: client server
 
 server: server.o 
-	g++ $(LDFLAGS) -o server server.o -I.
+	g++ $(LDFLAGS) -o server server.o $(CFLAGS)
 
 client: client.o
-	g++ $(LDFLAGS) -o client client.o -I.
+	g++ $(LDFLAGS) -o client client.o $(CFLAGS)
 
 
 .PHONY: clean
