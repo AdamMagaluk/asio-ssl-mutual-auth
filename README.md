@@ -1,6 +1,6 @@
 #How To
 
-Small little echo server using a boost-asio ssl to do client and server authentification.
+Simple echo server using a boost-asio and ssl to do client and server authentification.
 
 ## Building
 ```
