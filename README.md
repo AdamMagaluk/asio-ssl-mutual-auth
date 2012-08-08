@@ -6,6 +6,7 @@ Small little echo server using a boost-asio ssl to do client and server authenti
 Run make
 
 ## Testing
+```
 ./server <port>
 ./client <host> <port> 
-
+```
