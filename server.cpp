@@ -91,7 +91,6 @@ public:
                 boost::asio::ssl::context::default_workarounds
                 | boost::asio::ssl::context::no_sslv2
                 | boost::asio::ssl::context::single_dh_use);
-
         
         //context_.set_password_callback(boost::bind(&server::get_password, this));
 
