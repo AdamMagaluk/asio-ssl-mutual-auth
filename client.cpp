@@ -102,10 +102,12 @@ private:
 
 int main(int argc, char* argv[]) {
     try {
-        if (argc != 3) {
-            std::cerr << "Usage: client <host> <port>\n";
+        if (argc != 4) {
+            std::cerr << "Usage: client <host> <port> <certfolder>\n";
             return 1;
         }
+        
+        const std::string cert_folder = argv[3];
 
         boost::asio::io_service io_service;
 
@@ -125,9 +127,9 @@ int main(int argc, char* argv[]) {
         ctx.set_verify_mode(boost::asio::ssl::context::verify_peer || boost::asio::ssl::context::verify_fail_if_no_peer_cert);
         ctx.load_verify_file("certs/server.crt");
 
-        ctx.use_certificate_chain_file("client_certs/server.crt");
-        ctx.use_private_key_file("client_certs/server.key", boost::asio::ssl::context::pem);
-        ctx.use_tmp_dh_file("client_certs/dh512.pem");
+        ctx.use_certificate_chain_file(cert_folder+"/server.crt");
+        ctx.use_private_key_file(cert_folder+"/server.key", boost::asio::ssl::context::pem);
+        ctx.use_tmp_dh_file(cert_folder+"/dh512.pem");
 
         client c(io_service, ctx, iterator);
         io_service.run();
