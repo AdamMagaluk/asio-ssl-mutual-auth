@@ -124,7 +124,7 @@ int main(int argc, char* argv[]) {
                 | boost::asio::ssl::context::single_dh_use);
 
 
-        ctx.set_verify_mode(boost::asio::ssl::context::verify_peer || boost::asio::ssl::context::verify_fail_if_no_peer_cert);
+        ctx.set_verify_mode(boost::asio::ssl::context::verify_peer | boost::asio::ssl::context::verify_fail_if_no_peer_cert);
         ctx.load_verify_file("certs/server.crt");
 
         ctx.use_certificate_chain_file(cert_folder+"/server.crt");
